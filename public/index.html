@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="angular-resource-sample">
+
+<head>
+<base href='/'>
+<title>angular resource sample</title>
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-resource.min.js"></script>
+
+<script>
+var app = angular.module('angular-resource-sample', ['ngResource']);
+app.factory('ProfileService', ['$resource', function($resource) {
+  return $resource('/profile');
+}]);
+app.controller('ProfileController', ['$scope', 'ProfileService', function($scope, ProfileService) {
+  var profile = ProfileService.get();
+  profile.$promise.then(function onProfile(profileInfo) {
+    console.log(profileInfo);
+    $scope.profile = profileInfo;
+  });
+}]);
+</script>
+
+</head>
+
+<body>
+
+<div ng-controller="ProfileController">Profile: {{ profile }}</div>
+
+</body>
+
+</html>
